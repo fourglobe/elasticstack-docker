@@ -1,0 +1,9 @@
+enabled: true
+setup.kibana.host: kibana:5601
+output.elasticsearch.hosts: elasticsearch:9200
+processors:
+ - drop_fields.fields: ['event.timezone']
+ - add_fields:
+    target: event
+    fields:
+     timezone:  'Asia/Tokyo'

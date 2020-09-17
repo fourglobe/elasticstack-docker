@@ -1,0 +1,54 @@
+version: '3.7'
+
+services:
+  elasticsearch:
+    build: ./elasticstack/elasticsearch
+    container_name: elasticsearch
+    environment:
+      # - node.name=es01
+      # - discovery.seed_hosts=es02
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      # - discovery.type= single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+      - ./elasticstack/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    networks:
+      - elastic_net
+
+  kibana:
+    build: ./elasticstack/kibana
+    container_name: kibana
+    links:
+      - elasticsearch:elasticsearch
+    ports:
+      - 5601:5601
+    environment: 
+      ELASTICSEARCH_URL: elasticsearch:9200
+    networks:
+      - elastic_net
+#    volumes:
+#      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+
+  # filebeat:
+  #   build: ./filebeat
+  #   container_name: filebeat
+  #   external_links:
+  #     - elasticsearch
+  #     - kibana
+  #   networks:
+  #     - elastic_net
+  #   depends_on:
+  #     - elasticsearch
+  #     - kibana
+
+volumes:
+  elasticsearch_data:
+    driver: local
+
+networks:
+  elastic_net:
+    driver: bridge
