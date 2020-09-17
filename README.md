@@ -2,6 +2,27 @@
 
 This repository is before start develop an application.
 
+## Folder Tree
+```
+.
+├── README.md
+├── docker-compose.yml
+└── elasticstack
+    ├── elasticsearch
+    │   ├── Dockerfile
+    │   └── config
+    │       ├── elasticsearch.yml
+    │       ├── jvm.options
+    │       └── log4j2.properties
+    ├── filebeat
+    │   ├── Dockerfile
+    │   └── filebeat.yml
+    └── kibana
+        ├── Dockerfile
+        └── config
+            └── kibana.yml
+```
+
 ## If Django
 
 you want to develop Django application with elasticsearch and kibana or some product from elastic or not.
